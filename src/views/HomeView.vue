@@ -1,37 +1,52 @@
 <template>
   <div class="home">
-    <Todos :todos="todos" />
+    <Header />
+    <AddTodo v-on:add-todo="addTodo" />
+    <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo" />
   </div>
 </template>
 
 <script>
-import Todos from '@/components/Todos';
+import { v4 as uuidv4 } from 'uuid';
+import Header from '@/components/layout/Header.vue'
+import Todos from '@/components/Todos'
+import AddTodo from '@/components/AddTodo.vue'
 
 export default {
   name: "HomeView",
   components: {
-    Todos
+    Header,
+    Todos,
+    AddTodo
   },
   data() {
     return {
       todos: [
         {
-          id: 1,
+          id: uuidv4(),
           title: "Todo One",
           completed: false,
         },
         {
-          id: 2,
+          id: uuidv4(),
           title: "Todo Two",
-          completed: true,
+          completed: false,
         },
         {
-          id: 3,
+          id: uuidv4(),
           title: "Todo Three",
           completed: false,
         },
       ],
     };
   },
+  methods: {
+    deleteTodo(id) {
+      this.todos = this.todos.filter(todo => todo.id !== id);
+    },
+    addTodo(newTodo) {
+      this.todos = [...this.todos, newTodo];
+    }
+  }
 };
 </script>
