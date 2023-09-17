@@ -1,11 +1,12 @@
 <template>
   <div>
-    <Header />
+    {{ todos }}
+    <Header :title="title"/>
     <AddTodo @add-todo="addTodo" />
     <Todos
       :todos="todos"
       @del-todo="deleteTodo"
-      @edit-todo="updateTodo"
+      @editTodo="updateTodo"
       @complete="setComplete"
     />
   </div>
@@ -15,6 +16,7 @@
 import Header from "@/components/layout/Header.vue";
 import Todos from "@/components/Todos";
 import AddTodo from "@/components/AddTodo.vue";
+import { watch } from 'vue';
 
 export default {
   name: "HomeView",
@@ -26,8 +28,24 @@ export default {
   data() {
     return {
       todos: [],
+      title: "",
     };
   },
+
+  computed: {
+    todocomp () {
+      return this.todos.length;
+      }
+  },
+
+  watch: {
+    todocomp () {
+      console.log("ebadi")
+      this.title=""
+    }
+  },
+  
+
   methods: {
     deleteTodo(id) {
       // this.todos = this.todos.filter((todo) => todo.id !== id);
@@ -46,8 +64,9 @@ export default {
       // this.todos = [...this.todos, newTodo];
     },
     updateTodo(item) {
-      const index = this.todos.findIndex((todo) => todo.id === item.id);
-      this.todos[index].title = item.title;
+      let index = this.todos.findIndex(i => item.id == i.id)
+      this.todos.splice(index, 1, item)
+      
     },
     setComplete(item) {
       const index = this.todos.findIndex((todo) => todo.id === item.id);

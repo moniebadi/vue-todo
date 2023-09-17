@@ -26,7 +26,7 @@ export default {
       newTitle: this.todo.title,
       isEditing: false,
     };
-  },
+  }, 
   methods: {
     markComplete(e) {
       this.$emit("complete", e.target.checked);
@@ -36,7 +36,10 @@ export default {
     },
     submitNewItem() {
       if (this.newTitle == "") return;
-      this.$emit("edit-todo", this.newTitle);
+      console.log("asdasdasd q")
+      let obj = Object.assign({}, this.todo)
+      obj.title = this.newTitle
+      this.$emit("editTodo", obj);
       this.isEditing = false;
     },
   },

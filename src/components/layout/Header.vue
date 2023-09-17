@@ -1,12 +1,18 @@
 <template>
     <header class="header">
-        <h1>TodoList</h1>
+        <h1>TodoList {{ title }} </h1>
     </header>
 </template>
 
 <script>
 export default {
-    name: "Header"
+    name: "Header",
+    props: {
+        title: {
+            type: String,
+            default: ""
+        }
+    }
 }
 </script>
 
