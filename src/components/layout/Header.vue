@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-        <h1>TodoList {{ title }} </h1>
+        <h1> {{ title }} </h1>
     </header>
 </template>
 
@@ -22,6 +22,7 @@ export default {
     color: #fff;
     text-align: center;
     padding: 10px;
+    height: 60px;
 }
 
 .header a {

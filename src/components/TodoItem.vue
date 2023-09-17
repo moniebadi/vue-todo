@@ -12,7 +12,7 @@
     </div>
     <div>
       <button @click="edit" class="edit">edit</button>
-      <button @click="$emit('del-todo', todo.id)" class="del">x</button>
+      <button @click="$emit('delTodo', todo.id)" class="del">x</button>
     </div>
   </div>
 </template>
@@ -36,7 +36,6 @@ export default {
     },
     submitNewItem() {
       if (this.newTitle == "") return;
-      console.log("asdasdasd q")
       let obj = Object.assign({}, this.todo)
       obj.title = this.newTitle
       this.$emit("editTodo", obj);
