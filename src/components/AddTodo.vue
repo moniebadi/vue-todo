@@ -1,47 +1,54 @@
 <template>
-    <div>
-        <form @submit="addTodo">
-            <input type="text" v-model="title" name="title" placeholder="AddTodo...">
-            <input type="submit" value="submit" class="btn">
-        </form>
-    </div>
+  <div>
+    <form @submit="addTodo">
+      <input
+        type="text"
+        v-model="title"
+        name="title"
+        placeholder="Add Todo"
+      />
+      <input type="submit" value="submit" class="btn" />
+    </form>
+  </div>
 </template>
 
 <script>
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 export default {
-    name: "AddTodo",
-    data() {
-        return {
-            title:  ''
-
-        }
+  name: "AddTodo",
+  data() {
+    return {
+      title: "",
+    };
+  },
+  methods: {
+    addTodo(e) {
+      e.preventDefault();
+      if (!this.title) return;
+    //   if (this.title == "") return;
+      const newTodo = {
+        id: uuidv4(),
+        title: this.title,
+        completed: false,
+      };
+      this.$emit("add-todo", newTodo);
+      this.title = "";
     },
-    methods: {
-        addTodo(e) {
-            e.preventDefault()
-            const newTodo = {
-                id: uuidv4(),
-                title: this.title,
-                completed: false
-            }
-            this.$emit('add-todo', newTodo);
-        }
-    }
-}
+  },
+};
 </script>
 
 <style scoped>
 form {
-    display: flex;
+  display: flex;
 }
 
 input[type="text"] {
-    flex: 10;
-    padding: 5px;
+  flex: 10;
+  padding: 5px;
 }
 
 input[type="submit"] {
-    flex: 2;
+  flex: 2;
 }
 </style>

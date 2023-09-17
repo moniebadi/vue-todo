@@ -1,52 +1,58 @@
 <template>
-  <div class="home">
+  <div>
     <Header />
-    <AddTodo v-on:add-todo="addTodo" />
-    <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo" />
+    <AddTodo @add-todo="addTodo" />
+    <Todos
+      :todos="todos"
+      @del-todo="deleteTodo"
+      @edit-todo="updateTodo"
+      @complete="setComplete"
+    />
   </div>
 </template>
 
 <script>
-import { v4 as uuidv4 } from 'uuid';
-import Header from '@/components/layout/Header.vue'
-import Todos from '@/components/Todos'
-import AddTodo from '@/components/AddTodo.vue'
+import Header from "@/components/layout/Header.vue";
+import Todos from "@/components/Todos";
+import AddTodo from "@/components/AddTodo.vue";
 
 export default {
   name: "HomeView",
   components: {
     Header,
     Todos,
-    AddTodo
+    AddTodo,
   },
   data() {
     return {
-      todos: [
-        {
-          id: uuidv4(),
-          title: "Todo One",
-          completed: false,
-        },
-        {
-          id: uuidv4(),
-          title: "Todo Two",
-          completed: false,
-        },
-        {
-          id: uuidv4(),
-          title: "Todo Three",
-          completed: false,
-        },
-      ],
+      todos: [],
     };
   },
   methods: {
     deleteTodo(id) {
-      this.todos = this.todos.filter(todo => todo.id !== id);
+      // this.todos = this.todos.filter((todo) => todo.id !== id);
+      const index = this.todos.findIndex((todo) => todo.id == id)
+      this.todos.splice(index, 1)
     },
     addTodo(newTodo) {
-      this.todos = [...this.todos, newTodo];
-    }
-  }
+      if (
+        this.todos.find(
+          (todo) => todo.title.toLowerCase() === newTodo.title.toLowerCase()
+        )
+      ) {
+        return;
+      }
+      this.todos.push(newTodo);
+      // this.todos = [...this.todos, newTodo];
+    },
+    updateTodo(item) {
+      const index = this.todos.findIndex((todo) => todo.id === item.id);
+      this.todos[index].title = item.title;
+    },
+    setComplete(item) {
+      const index = this.todos.findIndex((todo) => todo.id === item.id);
+      this.todos[index].completed = item.checked;
+    },
+  },
 };
 </script>
